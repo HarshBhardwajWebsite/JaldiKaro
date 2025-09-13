@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Jaldikaro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-link.active {
+            background: #f97316;
+            color: white;
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-container {
+            height: 400px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Admin Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-xl font-bold text-orange-500">
+                        <i class="fas fa-home mr-2"></i>
+                        Jaldikaro Admin
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative text-gray-600 hover:text-orange-500 transition-colors">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center">3</span>
+                    </button>
+                    
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-orange-500 transition-colors">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Admin" class="w-8 h-8 rounded-full">
+                            <span class="hidden md:block">Admin</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Back to Site -->
+                    <a href="index.html" class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        View Site
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white h-screen shadow-sm border-r sticky top-16">
+            <nav class="p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="sidebar-link active flex items-center space-x-3 px-4 py-3 rounded-lg" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors" data-section="bookings">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Bookings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors" data-section="providers">
+                            <i class="fas fa-users"></i>
+                            <span>Providers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors" data-section="services">
+                            <i class="fas fa-cog"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors" data-section="users">
+                            <i class="fas fa-user-friends"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors" data-section="analytics">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors" data-section="settings">
+                            <i class="fas fa-cogs"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="admin-section">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
+                    <p class="text-gray-600">Overview of your platform performance</p>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Total Bookings</p>
+                                <p class="text-3xl font-bold text-gray-800" id="totalBookings">1,234</p>
+                                <p class="text-sm text-green-600 mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i>
+                                    +12% from last month
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calendar-check text-blue-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Active Providers</p>
+                                <p class="text-3xl font-bold text-gray-800" id="activeProviders">156</p>
+                                <p class="text-sm text-green-600 mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i>
+                                    +5% from last month
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-green-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Revenue</p>
+                                <p class="text-3xl font-bold text-gray-800" id="totalRevenue">₹89,432</p>
+                                <p class="text-sm text-green-600 mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i>
+                                    +18% from last month
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-rupee-sign text-orange-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Avg Rating</p>
+                                <p class="text-3xl font-bold text-gray-800" id="avgRating">4.8</p>
+                                <p class="text-sm text-green-600 mt-1">
+                                    <i class="fas fa-star mr-1"></i>
+                                    Excellent service
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-star text-yellow-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Bookings Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="bookingsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Service Categories</h3>
+                        <div class="chart-container">
+                            <canvas id="servicesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
+                    <div id="recentActivity" class="space-y-4">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookings Section -->
+            <div id="bookings-section" class="admin-section hidden">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Bookings Management</h1>
+                    <p class="text-gray-600">Manage all service bookings</p>
+                </div>
+                
+                <!-- Bookings Filters -->
+                <div class="bg-white rounded-xl shadow-sm border p-6 mb-6">
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <select id="bookingStatusFilter" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        
+                        <select id="bookingServiceFilter" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                            <option value="all">All Services</option>
+                        </select>
+                        
+                        <input type="date" id="bookingDateFilter" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                        
+                        <button id="exportBookings" class="bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                            <i class="fas fa-download mr-2"></i>
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bookings Table -->
+                <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Booking ID</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Customer</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Service</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Provider</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Date & Time</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Status</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Amount</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody">
+                                <!-- Bookings will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Providers Section -->
+            <div id="providers-section" class="admin-section hidden">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Providers Management</h1>
+                    <p class="text-gray-600">Manage service providers and registrations</p>
+                </div>
+                
+                <!-- Provider Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check text-green-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Active Providers</p>
+                                <p class="text-2xl font-bold text-gray-800">142</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-yellow-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Pending Approval</p>
+                                <p class="text-2xl font-bold text-gray-800">23</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-ban text-red-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Suspended</p>
+                                <p class="text-2xl font-bold text-gray-800">8</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Providers Table -->
+                <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                    <div class="p-6 border-b">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-800">All Providers</h3>
+                            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                                <i class="fas fa-plus mr-2"></i>
+                                Add Provider
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Provider</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Services</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Rating</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Bookings</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Status</th>
+                                    <th class="text-left py-4 px-6 text-sm font-medium text-gray-700">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="providersTableBody">
+                                <!-- Providers will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <div id="services-section" class="admin-section hidden">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Services Management</h1>
+                    <p class="text-gray-600">Manage available services and categories</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800">All Services</h3>
+                        <button id="addServiceBtn" class="bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Service
+                        </button>
+                    </div>
+                    
+                    <div id="servicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Services will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other sections (Users, Analytics, Settings) would go here -->
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

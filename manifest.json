@@ -1,0 +1,98 @@
+{
+  "name": "Jaldikaro - Local Home Services",
+  "short_name": "Jaldikaro",
+  "description": "Services to your doorstep within 1-2 km. Book carpenter, electrician, plumber and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f97316",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3e0.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "https://via.placeholder.com/640x1136/f97316/ffffff?text=Jaldikaro+Homepage",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "label": "Jaldikaro homepage showing service booking flow"
+    },
+    {
+      "src": "https://via.placeholder.com/640x1136/f97316/ffffff?text=Service+Providers",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "label": "Service providers listing with ratings and prices"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Book Service",
+      "short_name": "Book",
+      "description": "Quick service booking",
+      "url": "/#bookingFlow",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4de.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Emergency",
+      "short_name": "Emergency",
+      "description": "Emergency services",
+      "url": "/?emergency=true",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/26a0.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

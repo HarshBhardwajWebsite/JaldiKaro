@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confirm your service booking - Jaldikaro">
+    <title>Confirm Booking - Jaldikaro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        .booking-summary {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+        }
+        
+        .time-slot {
+            transition: all 0.2s ease;
+        }
+        
+        .time-slot.selected {
+            background: #f97316;
+            color: white;
+            border-color: #f97316;
+        }
+        
+        .payment-method {
+            transition: all 0.2s ease;
+        }
+        
+        .payment-method.selected {
+            border-color: #f97316;
+            background: #fef3e2;
+        }
+        
+        .step-progress {
+            background: linear-gradient(90deg, #f97316 var(--progress), #e5e7eb var(--progress));
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button onclick="history.back()" class="text-gray-600 hover:text-orange-500 transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <div class="text-xl font-bold text-orange-500">
+                        <i class="fas fa-home mr-2"></i>
+                        Jaldikaro
+                    </div>
+                </div>
+                
+                <!-- Language Toggle -->
+                <button id="languageToggle" class="bg-gray-100 rounded-full px-4 py-2 text-sm font-medium flex items-center space-x-2 hover:bg-gray-200 transition-all">
+                    <i class="fas fa-globe text-orange-500"></i>
+                    <span id="currentLanguage">EN</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="lg:grid lg:grid-cols-3 lg:gap-8">
+            <!-- Booking Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <!-- Progress Steps -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between text-sm font-medium text-gray-500 mb-2">
+                            <span data-lang="booking-details">Booking Details</span>
+                            <span data-lang="confirmation">Confirmation</span>
+                        </div>
+                        <div class="step-progress h-2 rounded-full" style="--progress: 50%"></div>
+                    </div>
+                    
+                    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-lang="confirm-booking">Confirm Your Booking</h1>
+                    
+                    <!-- Service & Provider Info -->
+                    <div id="serviceProviderInfo" class="border border-gray-200 rounded-xl p-4 mb-6">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                    
+                    <!-- Date & Time Selection -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4" data-lang="select-time">Select Date & Time</h3>
+                        
+                        <!-- Date Selection -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="preferred-date">Preferred Date</label>
+                            <div class="grid grid-cols-3 gap-2" id="dateOptions">
+                                <!-- Dates will be generated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- Time Slots -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="available-slots">Available Time Slots</label>
+                            <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="timeSlots">
+                                <!-- Time slots will be generated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Special Instructions -->
+                    <div class="mb-6">
+                        <label for="instructions" class="block text-sm font-medium text-gray-700 mb-2" data-lang="special-instructions">
+                            Special Instructions (Optional)
+                        </label>
+                        <textarea 
+                            id="instructions" 
+                            rows="3" 
+                            class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none" 
+                            placeholder="Any specific requirements or details for the service provider...">
+                        </textarea>
+                    </div>
+                    
+                    <!-- Contact Verification -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4" data-lang="contact-details">Contact Details</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" data-lang="phone-number">Phone Number</label>
+                                <input 
+                                    type="tel" 
+                                    id="phoneNumber" 
+                                    class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                    readonly
+                                >
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" data-lang="service-address">Service Address</label>
+                                <textarea 
+                                    id="serviceAddress" 
+                                    rows="2" 
+                                    class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                                    readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Method -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4" data-lang="payment-method">Payment Method</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="cash">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                                        <div class="w-3 h-3 rounded-full bg-orange-500 hidden"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-800" data-lang="cash-payment">Cash Payment</div>
+                                        <div class="text-sm text-gray-600" data-lang="pay-after-service">Pay after service completion</div>
+                                    </div>
+                                    <i class="fas fa-money-bills text-green-500"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="upi">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                                        <div class="w-3 h-3 rounded-full bg-orange-500 hidden"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-800" data-lang="upi-payment">UPI Payment</div>
+                                        <div class="text-sm text-gray-600" data-lang="pay-now-secure">Pay now (Secure)</div>
+                                    </div>
+                                    <i class="fas fa-mobile-alt text-blue-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms & Conditions -->
+                    <div class="mb-6">
+                        <label class="flex items-start space-x-3">
+                            <input type="checkbox" id="agreeTerms" class="mt-1 text-orange-500 focus:ring-orange-500 rounded">
+                            <span class="text-sm text-gray-600">
+                                <span data-lang="agree-to">I agree to the</span> 
+                                <a href="#" class="text-orange-500 hover:text-orange-600" data-lang="terms-conditions">Terms & Conditions</a> 
+                                <span data-lang="and">and</span> 
+                                <a href="#" class="text-orange-500 hover:text-orange-600" data-lang="privacy-policy">Privacy Policy</a>
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="history.back()" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                            <span data-lang="back">Back</span>
+                        </button>
+                        
+                        <button id="confirmBookingBtn" class="flex-1 bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                            <span data-lang="confirm-book">Confirm Booking</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Summary -->
+            <div class="lg:col-span-1 mt-8 lg:mt-0">
+                <div class="bg-white rounded-xl shadow-sm border overflow-hidden sticky top-24">
+                    <div class="booking-summary text-white p-6">
+                        <h2 class="text-lg font-bold mb-4" data-lang="booking-summary">Booking Summary</h2>
+                        
+                        <div class="space-y-3 text-orange-100">
+                            <div class="flex justify-between">
+                                <span data-lang="service">Service:</span>
+                                <span id="summaryService" class="font-medium text-white">Carpenter</span>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <span data-lang="provider">Provider:</span>
+                                <span id="summaryProvider" class="font-medium text-white">Rajesh Kumar</span>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <span data-lang="date-time">Date & Time:</span>
+                                <span id="summaryDateTime" class="font-medium text-white">Select time</span>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <span data-lang="location">Location:</span>
+                                <span id="summaryLocation" class="font-medium text-white">110001</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="base-price">Base Price:</span>
+                                <span class="font-medium" id="basePrice">₹350</span>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="service-fee">Service Fee:</span>
+                                <span class="font-medium" id="serviceFee">₹25</span>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang="taxes">Taxes & Fees:</span>
+                                <span class="font-medium" id="taxes">₹30</span>
+                            </div>
+                            
+                            <hr class="border-gray-200">
+                            
+                            <div class="flex justify-between text-lg font-bold">
+                                <span data-lang="total">Total:</span>
+                                <span class="text-orange-500" id="totalAmount">₹405</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-3 bg-green-50 rounded-xl">
+                            <div class="flex items-center text-green-700 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <span data-lang="price-estimate">This is an estimated price. Final amount may vary based on actual work done.</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 space-y-2 text-xs text-gray-500">
+                            <div class="flex items-center">
+                                <i class="fas fa-shield-alt text-green-500 mr-2"></i>
+                                <span data-lang="safe-secure">100% Safe & Secure</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-undo-alt text-blue-500 mr-2"></i>
+                                <span data-lang="easy-cancellation">Easy Cancellation</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-headset text-orange-500 mr-2"></i>
+                                <span data-lang="support">24/7 Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-8 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-3xl text-green-500"></i>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-2" data-lang="booking-confirmed">Booking Confirmed!</h2>
+            <p class="text-gray-600 mb-6" data-lang="confirmation-message">Your service request is confirmed. Provider arriving soon — we'll notify you.</p>
+            
+            <div class="bg-gray-50 rounded-xl p-4 mb-6 text-left">
+                <div class="text-sm text-gray-600 mb-1" data-lang="booking-id">Booking ID:</div>
+                <div class="text-lg font-bold text-gray-800" id="bookingId">#JDK123456</div>
+            </div>
+            
+            <div class="space-y-3">
+                <button id="trackBookingBtn" class="w-full bg-orange-500 text-white py-3 rounded-xl font-medium hover:bg-orange-600 transition-colors">
+                    <span data-lang="track-booking">Track Booking</span>
+                </button>
+                
+                <button onclick="window.location.href='index.html'" class="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                    <span data-lang="book-another">Book Another Service</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+</html>

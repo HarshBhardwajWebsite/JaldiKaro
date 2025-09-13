@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join Jaldikaro as a service provider and start earning">
+    <title>Become a Service Provider - Jaldikaro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-active {
+            background: #f97316;
+            color: white;
+        }
+        
+        .step-completed {
+            background: #22c55e;
+            color: white;
+        }
+        
+        .step-pending {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .signup-step {
+            display: none;
+        }
+        
+        .signup-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .service-checkbox {
+            transition: all 0.2s ease;
+        }
+        
+        .service-checkbox.selected {
+            border-color: #f97316;
+            background-color: #fef3e2;
+        }
+        
+        .gradient-hero {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-orange-500 transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                    <div class="text-xl font-bold text-orange-500">
+                        <i class="fas fa-home mr-2"></i>
+                        Jaldikaro
+                    </div>
+                </div>
+                
+                <!-- Language Toggle -->
+                <button id="languageToggle" class="bg-gray-100 rounded-full px-4 py-2 text-sm font-medium flex items-center space-x-2 hover:bg-gray-200 transition-all">
+                    <i class="fas fa-globe text-orange-500"></i>
+                    <span id="currentLanguage">EN</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-hero text-white py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4" data-lang="become-provider-hero">
+                Become a Jaldikaro Service Provider
+            </h1>
+            <p class="text-xl text-orange-100 mb-6" data-lang="provider-hero-subtitle">
+                Join thousands of professionals earning with flexible work and guaranteed payments
+            </p>
+            
+            <!-- Benefits -->
+            <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-rupee-sign text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-1" data-lang="earn-more">Earn More</h3>
+                    <p class="text-sm text-orange-100" data-lang="earn-more-desc">Set your rates, work flexible hours</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-1" data-lang="get-customers">Get Customers</h3>
+                    <p class="text-sm text-orange-100" data-lang="get-customers-desc">Connect with local customers easily</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-1" data-lang="secure-payments">Secure Payments</h3>
+                    <p class="text-sm text-orange-100" data-lang="secure-payments-desc">Guaranteed payment protection</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Form -->
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Step Indicators -->
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center space-x-4">
+                    <div id="step1Indicator" class="step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+                    <div class="w-12 h-1 bg-gray-200 rounded"></div>
+                    <div id="step2Indicator" class="step-indicator step-pending w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+                    <div class="w-12 h-1 bg-gray-200 rounded"></div>
+                    <div id="step3Indicator" class="step-indicator step-pending w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+                    <div class="w-12 h-1 bg-gray-200 rounded"></div>
+                    <div id="step4Indicator" class="step-indicator step-pending w-10 h-10 rounded-full flex items-center justify-center font-bold">4</div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm border p-8">
+                <!-- Step 1: Personal Information -->
+                <div id="step1" class="signup-step active">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2" data-lang="personal-info">Personal Information</h2>
+                        <p class="text-gray-600" data-lang="personal-info-desc">Tell us about yourself</p>
+                    </div>
+                    
+                    <div class="max-w-2xl mx-auto space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="full-name">Full Name *</label>
+                                <input type="text" id="fullName" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500" placeholder="Enter your full name" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="phone-number">Phone Number *</label>
+                                <input type="tel" id="phoneNumber" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500" placeholder="+91 9876543210" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="email-address">Email Address *</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500" placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="experience-years">Years of Experience *</label>
+                            <select id="experience" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500" required>
+                                <option value="">Select experience</option>
+                                <option value="0-1">0-1 years</option>
+                                <option value="1-3">1-3 years</option>
+                                <option value="3-5">3-5 years</option>
+                                <option value="5-10">5-10 years</option>
+                                <option value="10+">10+ years</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="languages-spoken">Languages Spoken *</label>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" value="English" class="text-orange-500 focus:ring-orange-500 rounded mr-2">
+                                    <span class="text-sm">English</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" value="Hindi" class="text-orange-500 focus:ring-orange-500 rounded mr-2">
+                                    <span class="text-sm">Hindi</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" value="Tamil" class="text-orange-500 focus:ring-orange-500 rounded mr-2">
+                                    <span class="text-sm">Tamil</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" value="Telugu" class="text-orange-500 focus:ring-orange-500 rounded mr-2">
+                                    <span class="text-sm">Telugu</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" value="Bengali" class="text-orange-500 focus:ring-orange-500 rounded mr-2">
+                                    <span class="text-sm">Bengali</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" value="Other" class="text-orange-500 focus:ring-orange-500 rounded mr-2">
+                                    <span class="text-sm">Other</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="bio">About Yourself</label>
+                            <textarea id="bio" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none" placeholder="Brief description of your skills and experience..."></textarea>
+                        </div>
+                        
+                        <button id="step1Next" class="w-full bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                            <span data-lang="continue">Continue</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Services & Pricing -->
+                <div id="step2" class="signup-step">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2" data-lang="services-pricing">Services & Pricing</h2>
+                        <p class="text-gray-600" data-lang="services-pricing-desc">Choose your services and set your rates</p>
+                    </div>
+                    
+                    <div class="max-w-4xl mx-auto">
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4" data-lang="select-services">Select Services You Provide *</h3>
+                            <div id="servicesGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                <!-- Services will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4" data-lang="set-pricing">Set Your Pricing</h3>
+                            <div id="pricingSection" class="space-y-4">
+                                <!-- Pricing inputs will be generated based on selected services -->
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="step2Back" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                                <span data-lang="back">Back</span>
+                            </button>
+                            <button id="step2Next" class="flex-1 bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                                <span data-lang="continue">Continue</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Service Areas -->
+                <div id="step3" class="signup-step">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2" data-lang="service-areas">Service Areas</h2>
+                        <p class="text-gray-600" data-lang="service-areas-desc">Where do you want to provide services?</p>
+                    </div>
+                    
+                    <div class="max-w-2xl mx-auto space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="primary-location">Primary Service Location *</label>
+                            <input type="text" id="primaryLocation" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500" placeholder="Enter city, area, or pin code" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="service-radius">Service Radius</label>
+                            <select id="serviceRadius" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                <option value="1">Within 1 km</option>
+                                <option value="2" selected>Within 2 km</option>
+                                <option value="5">Within 5 km</option>
+                                <option value="10">Within 10 km</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="additional-areas">Additional Service Areas (Optional)</label>
+                            <textarea id="additionalAreas" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none" placeholder="Enter additional pin codes or areas (comma separated)"></textarea>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4" data-lang="availability">Availability</h3>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="working-hours">Working Hours</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <select id="startTime" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                            <option value="6">6:00 AM</option>
+                                            <option value="7">7:00 AM</option>
+                                            <option value="8" selected>8:00 AM</option>
+                                            <option value="9">9:00 AM</option>
+                                            <option value="10">10:00 AM</option>
+                                        </select>
+                                        <select id="endTime" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                            <option value="18" selected>6:00 PM</option>
+                                            <option value="19">7:00 PM</option>
+                                            <option value="20">8:00 PM</option>
+                                            <option value="21">9:00 PM</option>
+                                            <option value="22">10:00 PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="working-days">Working Days</label>
+                                    <div class="flex flex-wrap gap-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="monday" class="text-orange-500 focus:ring-orange-500 rounded mr-1" checked>
+                                            <span class="text-sm">Mon</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="tuesday" class="text-orange-500 focus:ring-orange-500 rounded mr-1" checked>
+                                            <span class="text-sm">Tue</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="wednesday" class="text-orange-500 focus:ring-orange-500 rounded mr-1" checked>
+                                            <span class="text-sm">Wed</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="thursday" class="text-orange-500 focus:ring-orange-500 rounded mr-1" checked>
+                                            <span class="text-sm">Thu</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="friday" class="text-orange-500 focus:ring-orange-500 rounded mr-1" checked>
+                                            <span class="text-sm">Fri</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="saturday" class="text-orange-500 focus:ring-orange-500 rounded mr-1" checked>
+                                            <span class="text-sm">Sat</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="sunday" class="text-orange-500 focus:ring-orange-500 rounded mr-1">
+                                            <span class="text-sm">Sun</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="step3Back" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                                <span data-lang="back">Back</span>
+                            </button>
+                            <button id="step3Next" class="flex-1 bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                                <span data-lang="continue">Continue</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Documents & Verification -->
+                <div id="step4" class="signup-step">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2" data-lang="documents-verification">Documents & Verification</h2>
+                        <p class="text-gray-600" data-lang="documents-desc">Upload documents for verification and profile completion</p>
+                    </div>
+                    
+                    <div class="max-w-2xl mx-auto space-y-6">
+                        <!-- Profile Photo -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="profile-photo">Profile Photo *</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-orange-300 transition-colors">
+                                <div id="photoPreview" class="mb-4 hidden">
+                                    <img id="photoImage" class="w-24 h-24 rounded-full object-cover mx-auto" alt="Profile">
+                                </div>
+                                <i class="fas fa-camera text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-gray-600 mb-2" data-lang="upload-photo">Upload your profile photo</p>
+                                <input type="file" id="profilePhoto" accept="image/*" class="hidden">
+                                <button type="button" onclick="document.getElementById('profilePhoto').click()" class="bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                                    <span data-lang="choose-file">Choose File</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- ID Proof -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="id-proof">Government ID Proof *</label>
+                            <div class="grid grid-cols-2 gap-4 mb-3">
+                                <select id="idType" class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                    <option value="">Select ID Type</option>
+                                    <option value="aadhaar">Aadhaar Card</option>
+                                    <option value="pan">PAN Card</option>
+                                    <option value="voter">Voter ID</option>
+                                    <option value="driving">Driving License</option>
+                                    <option value="passport">Passport</option>
+                                </select>
+                                <input type="text" id="idNumber" class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500" placeholder="ID Number">
+                            </div>
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-orange-300 transition-colors">
+                                <input type="file" id="idProof" accept="image/*,.pdf" class="hidden">
+                                <button type="button" onclick="document.getElementById('idProof').click()" class="text-orange-500 hover:text-orange-600 font-medium">
+                                    <i class="fas fa-upload mr-2"></i>
+                                    <span data-lang="upload-id">Upload ID Document</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Portfolio (Optional) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-lang="portfolio">Portfolio/Work Samples (Optional)</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-orange-300 transition-colors">
+                                <input type="file" id="portfolio" accept="image/*" multiple class="hidden">
+                                <button type="button" onclick="document.getElementById('portfolio').click()" class="text-orange-500 hover:text-orange-600 font-medium">
+                                    <i class="fas fa-images mr-2"></i>
+                                    <span data-lang="upload-portfolio">Upload Work Photos</span>
+                                </button>
+                                <p class="text-xs text-gray-500 mt-1" data-lang="portfolio-desc">Upload photos of your previous work (up to 5 images)</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Terms & Conditions -->
+                        <div class="space-y-4">
+                            <label class="flex items-start space-x-3">
+                                <input type="checkbox" id="agreeTerms" class="mt-1 text-orange-500 focus:ring-orange-500 rounded">
+                                <span class="text-sm text-gray-600">
+                                    <span data-lang="agree-to">I agree to the</span> 
+                                    <a href="#" class="text-orange-500 hover:text-orange-600" data-lang="provider-terms">Provider Terms & Conditions</a>
+                                </span>
+                            </label>
+                            
+                            <label class="flex items-start space-x-3">
+                                <input type="checkbox" id="agreeBackground" class="mt-1 text-orange-500 focus:ring-orange-500 rounded">
+                                <span class="text-sm text-gray-600" data-lang="background-check">
+                                    I consent to background verification and document checks
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="step4Back" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                                <span data-lang="back">Back</span>
+                            </button>
+                            <button id="submitApplication" class="flex-1 bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                                <span data-lang="submit-application">Submit Application</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-8 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-3xl text-green-500"></i>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-4" data-lang="application-submitted">Application Submitted!</h2>
+            <p class="text-gray-600 mb-6" data-lang="application-success-message">
+                Thank you for applying! We'll review your application and contact you within 24-48 hours.
+            </p>
+            
+            <div class="space-y-3">
+                <button onclick="window.location.href='index.html'" class="w-full bg-orange-500 text-white py-3 rounded-xl font-medium hover:bg-orange-600 transition-colors">
+                    <span data-lang="go-home">Go to Homepage</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/provider-signup.js"></script>
+</body>
+</html>
